@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DMarketCatalogApp.MainPage"
+             Title="Лабораторна робота №2 — Аналіз XML (Каталог DMarket)">
+
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="Файл">
+            <MenuFlyoutItem Text="Відкрити XML..." Clicked="OnOpenXmlClicked" />
+            <MenuFlyoutItem Text="Трансформувати в HTML..." Clicked="OnTransformClicked" />
+            <MenuFlyoutItem Text="Вихід" Clicked="OnExitClicked" />
+        </MenuBarItem>
+
+        <MenuBarItem Text="Пошук">
+            <MenuFlyoutItem Text="Виконати пошук" Clicked="OnSearchClicked" />
+            <MenuFlyoutItem Text="Очистити (Clear)" Clicked="OnClearClicked" />
+        </MenuBarItem>
+
+        <MenuBarItem Text="Довідка">
+            <MenuFlyoutItem Text="Довідка" Clicked="OnHelpClicked" />
+            <MenuFlyoutItem Text="Про програму" Clicked="OnAboutClicked" />
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
+    <Grid RowDefinitions="Auto, *, Auto" Padding="10" RowSpacing="8">
+
+        <!-- Панель кнопок -->
+        <ScrollView Grid.Row="0" Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal" Spacing="6">
+                <Button Text="Відкрити XML" Clicked="OnOpenXmlClicked" />
+                <Button Text="Пошук" Clicked="OnSearchClicked" />
+                <Button Text="Очистити (Clear)" Clicked="OnClearClicked" />
+                <Button Text="Трансформувати в HTML" Clicked="OnTransformClicked" />
+                <Button Text="Довідка" Clicked="OnHelpClicked" />
+                <Button Text="Про програму" Clicked="OnAboutClicked" />
+                <Button Text="Вихід" Clicked="OnExitClicked" />
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Основна робоча область: ліворуч фільтри, праворуч результати -->
+        <Grid Grid.Row="1" ColumnDefinitions="340, *" ColumnSpacing="12">
+
+            <!-- Ліва панель: параметри пошуку та вибір стратегії -->
+            <ScrollView Grid.Column="0">
+                <VerticalStackLayout Spacing="10" Padding="4">
+
+                    <Label Text="1. Метод аналізу XML (Стратегія):" FontAttributes="Bold" />
+                    <HorizontalStackLayout Spacing="12">
+                        <RadioButton x:Name="domRadio" Content="DOM" GroupName="StrategyGroup" />
+                        <RadioButton x:Name="saxRadio" Content="SAX" GroupName="StrategyGroup" />
+                        <RadioButton x:Name="linqRadio" Content="LINQ to XML" GroupName="StrategyGroup" IsChecked="True" />
+                    </HorizontalStackLayout>
+
+                    <BoxView HeightRequest="1" Color="LightGray" />
+
+                    <Label Text="2. Критерії фільтрації (з файлу):" FontAttributes="Bold" />
+
+                    <!-- Game -->
+                    <Grid ColumnDefinitions="Auto, 95, *" ColumnSpacing="6">
+                        <CheckBox x:Name="gameCheck" Grid.Column="0" IsEnabled="False" CheckedChanged="OnFilterControlChanged" />
+                        <Label Grid.Column="1" Text="Гра (Game):" VerticalOptions="Center" />
+                        <Picker x:Name="gamePicker" Grid.Column="2" IsEnabled="False" SelectedIndexChanged="OnFilterControlChanged" />
+                    </Grid>
+
+                    <!-- Category -->
+                    <Grid ColumnDefinitions="Auto, 95, *" ColumnSpacing="6">
+                        <CheckBox x:Name="categoryCheck" Grid.Column="0" IsEnabled="False" CheckedChanged="OnFilterControlChanged" />
+                        <Label Grid.Column="1" Text="Категорія:" VerticalOptions="Center" />
+                        <Picker x:Name="categoryPicker" Grid.Column="2" IsEnabled="False" SelectedIndexChanged="OnFilterControlChanged" />
+                    </Grid>
+
+                    <!-- Rarity -->
+                    <Grid ColumnDefinitions="Auto, 95, *" ColumnSpacing="6">
+                        <CheckBox x:Name="rarityCheck" Grid.Column="0" IsEnabled="False" CheckedChanged="OnFilterControlChanged" />
+                        <Label Grid.Column="1" Text="Рідкість:" VerticalOptions="Center" />
+                        <Picker x:Name="rarityPicker" Grid.Column="2" IsEnabled="False" SelectedIndexChanged="OnFilterControlChanged" />
+                    </Grid>
+
+                    <!-- Exterior -->
+                    <Grid ColumnDefinitions="Auto, 95, *" ColumnSpacing="6">
+                        <CheckBox x:Name="exteriorCheck" Grid.Column="0" IsEnabled="False" CheckedChanged="OnFilterControlChanged" />
+                        <Label Grid.Column="1" Text="Зношеність:" VerticalOptions="Center" />
+                        <Picker x:Name="exteriorPicker" Grid.Column="2" IsEnabled="False" SelectedIndexChanged="OnFilterControlChanged" />
+                    </Grid>
+
+                    <!-- Seller -->
+                    <Grid ColumnDefinitions="Auto, 95, *" ColumnSpacing="6">
+                        <CheckBox x:Name="sellerCheck" Grid.Column="0" IsEnabled="False" CheckedChanged="OnFilterControlChanged" />
+                        <Label Grid.Column="1" Text="Продавець:" VerticalOptions="Center" />
+                        <Picker x:Name="sellerPicker" Grid.Column="2" IsEnabled="False" SelectedIndexChanged="OnFilterControlChanged" />
+                    </Grid>
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <!-- Права панель: виведення результатів -->
+            <Grid Grid.Column="1" RowDefinitions="Auto, *" RowSpacing="6">
+                <Label x:Name="resultsHeaderLabel"
+                       Grid.Row="0"
+                       Text="Результати пошуку:"
+                       FontAttributes="Bold" />
+
+                <ScrollView Grid.Row="1">
+                    <Editor x:Name="resultsEditor"
+                            IsReadOnly="True"
+                            AutoSize="TextChanges"
+                            FontFamily="Consolas"
+                            FontSize="14"
+                            Placeholder="Тут відображатимуться знайдені лоти каталогу DMarket..." />
+                </ScrollView>
+            </Grid>
+        </Grid>
+
+        <!-- Рядок стану -->
+        <Label x:Name="statusLabel"
+               Grid.Row="2"
+               Text="Файл не вибрано." />
+    </Grid>
+</ContentPage>
