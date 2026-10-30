@@ -20,7 +20,7 @@ public class DMarketXmlTests
         Dictionary<string, List<string>> options = ctrl.loadXmlFile(xmlPath);
 
         Assert.True(options.ContainsKey("Game"));
-        Assert.Equal(3, options["Game"].Count); // CS2, Dota 2, Rust
+        Assert.Equal(3, options["Game"].Count);
         Assert.Contains("CS2", options["Game"]);
         Assert.Contains("Dota 2", options["Game"]);
         Assert.Contains("Rust", options["Game"]);
@@ -46,6 +46,26 @@ public class DMarketXmlTests
         Assert.Equal(2, items.Count);
         Assert.Contains(items, i => i.getTitle() == "AWP | Asiimov");
         Assert.Contains(items, i => i.getTitle() == "Karambit | Doppler");
+    }
+
+    [Theory]
+    [InlineData(StrategyType.DOM)]
+    [InlineData(StrategyType.SAX)]
+    [InlineData(StrategyType.LINQ)]
+    public void KeywordSearch_FindsItemsBySubstringAcrossAllStrategies(StrategyType type)
+    {
+        string xmlPath = GetDataFilePath("dmarket.xml");
+        var ctrl = new CatalogController(GetDataFilePath("style.xsl"));
+        ctrl.loadXmlFile(xmlPath);
+
+        var filter = new SearchFilter();
+        filter.setCriterion("Keyword", "Asiimov");
+
+        ctrl.setStrategy(type);
+        List<CatalogItem> items = ctrl.search(filter);
+
+        Assert.Single(items);
+        Assert.Equal("AWP | Asiimov", items[0].getTitle());
     }
 
     [Fact]

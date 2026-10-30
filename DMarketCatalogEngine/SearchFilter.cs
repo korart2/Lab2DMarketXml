@@ -14,7 +14,7 @@ public class SearchFilter
         }
         else
         {
-            criteria[attribute] = value;
+            criteria[attribute] = value.Trim();
         }
         return true;
     }
@@ -31,6 +31,15 @@ public class SearchFilter
     {
         foreach (var pair in criteria)
         {
+            if (pair.Key == "Keyword")
+            {
+                if (!MatchesKeyword(item, pair.Value))
+                {
+                    return false;
+                }
+                continue;
+            }
+
             string actualValue = item.getAttribute(pair.Key);
             if (actualValue != pair.Value)
             {
@@ -38,5 +47,32 @@ public class SearchFilter
             }
         }
         return true;
+    }
+
+    private static bool MatchesKeyword(CatalogItem item, string keyword)
+    {
+        if (item.getTitle().Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+            item.getId().Contains(keyword, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        foreach (var attr in item.getAttributes().Values)
+        {
+            if (attr.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        foreach (string tag in item.getTags())
+        {
+            if (tag.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

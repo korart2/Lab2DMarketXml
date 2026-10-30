@@ -48,16 +48,19 @@ public class DomSearchStrategy : ISearchStrategy
 
     private static string BuildXPath(SearchFilter filter)
     {
-        Dictionary<string, string> criteria = filter.getCriteria();
-        if (criteria.Count == 0)
+        var conditions = new List<string>();
+        foreach (var pair in filter.getCriteria())
         {
-            return "//Item";
+            if (pair.Key == "Keyword")
+            {
+                continue;
+            }
+            conditions.Add($"@{pair.Key}='{pair.Value}'");
         }
 
-        var conditions = new List<string>();
-        foreach (var pair in criteria)
+        if (conditions.Count == 0)
         {
-            conditions.Add($"@{pair.Key}='{pair.Value}'");
+            return "//Item";
         }
 
         return $"//Item[{string.Join(" and ", conditions)}]";

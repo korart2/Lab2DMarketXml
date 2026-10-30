@@ -16,10 +16,6 @@ public partial class MainPage : ContentPage
         filter = new SearchFilter();
     }
 
-    // =========================================================================
-    // Методи MainPage згідно з діаграмою класів (2.png) та послідовності (3.png)
-    // =========================================================================
-
     public void openXmlBtnClick(string path)
     {
         try
@@ -90,6 +86,9 @@ public partial class MainPage : ContentPage
         isUpdatingUi = true;
         try
         {
+            keywordCheck.IsChecked = false;
+            keywordEntry.Text = string.Empty;
+
             gameCheck.IsChecked = false;
             categoryCheck.IsChecked = false;
             rarityCheck.IsChecked = false;
@@ -120,7 +119,7 @@ public partial class MainPage : ContentPage
             "Як користуватися програмою:\n" +
             "1. Натисніть «Відкрити XML», щоб обрати файл бази даних (.xml). Значення атрибутів автоматично підвантажаться у списки фільтрів.\n" +
             "2. Оберіть метод пошуку (шаблон Стратегія): DOM, SAX або LINQ to XML.\n" +
-            "3. Поставте прапорець біля потрібних атрибутів (Гра, Категорія, Рідкість, Зношеність, Продавець) та виберіть значення зі списку.\n" +
+            "3. Задайте ключове слово та/або оберіть значення атрибутів зі списків.\n" +
             "4. Натисніть «Пошук» для виведення знайдених предметів.\n" +
             "5. Натисніть «Трансформувати в HTML» для генерації HTML-звіту за допомогою XSLT.\n" +
             "6. Кнопка «Очистити (Clear)» скидає всі вибрані фільтри та очищує поле результатів.";
@@ -133,6 +132,11 @@ public partial class MainPage : ContentPage
         isUpdatingUi = true;
         try
         {
+            keywordCheck.IsChecked = false;
+            keywordEntry.Text = string.Empty;
+            keywordCheck.IsEnabled = true;
+            keywordEntry.IsEnabled = true;
+
             FillPicker(gamePicker, gameCheck, options, "Game");
             FillPicker(categoryPicker, categoryCheck, options, "Category");
             FillPicker(rarityPicker, rarityCheck, options, "Rarity");
@@ -184,10 +188,6 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // =========================================================================
-    // Допоміжні методи та обробники подій форми
-    // =========================================================================
-
     private static void FillPicker(Picker picker, CheckBox checkBox, Dictionary<string, List<string>> options, string attributeName)
     {
         picker.SelectedIndex = -1;
@@ -210,6 +210,12 @@ public partial class MainPage : ContentPage
     private void SyncFilterFromControls()
     {
         filter.clear();
+
+        if (keywordCheck.IsChecked && !string.IsNullOrWhiteSpace(keywordEntry.Text))
+        {
+            selectFilter("Keyword", keywordEntry.Text);
+        }
+
         ApplySingleControlToFilter(gameCheck, gamePicker, "Game");
         ApplySingleControlToFilter(categoryCheck, categoryPicker, "Category");
         ApplySingleControlToFilter(rarityCheck, rarityPicker, "Rarity");
@@ -232,11 +238,17 @@ public partial class MainPage : ContentPage
         return StrategyType.LINQ;
     }
 
+    private void OnKeywordTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (isUpdatingUi) return;
+        keywordCheck.IsChecked = !string.IsNullOrWhiteSpace(e.NewTextValue);
+        SyncFilterFromControls();
+    }
+
     private void OnFilterControlChanged(object? sender, EventArgs e)
     {
         if (isUpdatingUi) return;
 
-        // Якщо користувач вибрав значення у списку, автоматично вмикаємо відповідний прапорець
         if (sender == gamePicker && gamePicker.SelectedIndex >= 0) gameCheck.IsChecked = true;
         if (sender == categoryPicker && categoryPicker.SelectedIndex >= 0) categoryCheck.IsChecked = true;
         if (sender == rarityPicker && rarityPicker.SelectedIndex >= 0) rarityCheck.IsChecked = true;

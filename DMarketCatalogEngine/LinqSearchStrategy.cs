@@ -10,14 +10,41 @@ public class LinqSearchStrategy : ISearchStrategy
         if (!File.Exists(xmlPath)) return results;
 
         XDocument doc = XDocument.Load(xmlPath);
+        Dictionary<string, string> criteria = filter.getCriteria();
 
-        IEnumerable<CatalogItem> query =
+        IEnumerable<XElement> query =
             from itemElement in doc.Descendants("Item")
-            let item = CreateItemFromElement(itemElement)
-            where filter.matches(item)
-            select item;
+            where MatchesXmlAttributes(itemElement, criteria)
+            select itemElement;
 
-        return query.ToList();
+        foreach (XElement element in query)
+        {
+            CatalogItem item = CreateItemFromElement(element);
+            if (filter.matches(item))
+            {
+                results.Add(item);
+            }
+        }
+
+        return results;
+    }
+
+    private static bool MatchesXmlAttributes(XElement element, Dictionary<string, string> criteria)
+    {
+        foreach (var pair in criteria)
+        {
+            if (pair.Key == "Keyword")
+            {
+                continue;
+            }
+
+            string? attrVal = element.Attribute(pair.Key)?.Value;
+            if (attrVal != pair.Value)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static CatalogItem CreateItemFromElement(XElement element)
