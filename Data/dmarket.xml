@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DMarketCatalog>
-  <Item Id="DM-101" Title="AWP | Asiimov" Game="CS2" Category="Sniper Rifle" Rarity="Covert" Exterior="Field-Tested" Float="0.214" Price="145.50" Seller="s1mple_trade">
+  <Item Id="DM-101" Title="AWP | Asiimov" Game="CS2" Category="Sniper Rifle" Rarity="Covert" Exterior="Field-Tested" Float="0.214" Price="95.00" Seller="NightRaven">
     <Tag Name="NaVi Katowice Holo" />
     <Tag Name="Sniper" />
   </Item>
 
-  <Item Id="DM-102" Title="Karambit | Doppler" Game="CS2" Category="Knife" Rarity="Covert" Exterior="Factory New" StatTrak="true" Price="1420.00" Seller="skin_baron">
+  <Item Id="DM-102" Title="Karambit | Doppler" Game="CS2" Category="Knife" Rarity="Covert" Exterior="Factory New" StatTrak="true" Price="1150.00" Seller="KyivTrader_UA">
     <Tag Name="Phase 2" />
     <Tag Name="Melee" />
   </Item>
 
-  <Item Id="DM-103" Title="AK-47 | Redline" Game="CS2" Category="Rifle" Rarity="Classified" Exterior="Minimal Wear" Price="85.00" Seller="s1mple_trade" TradeLock="3d">
+  <Item Id="DM-103" Title="AK-47 | Redline" Game="CS2" Category="Rifle" Rarity="Classified" Exterior="Minimal Wear" Price="82.00" Seller="ShadowBlade">
     <Tag Name="4x Astralis Foil" />
   </Item>
 
-  <Item Id="DM-104" Title="Feast of Abscession" Game="Dota 2" Category="Arcana" Rarity="Arcana" Hero="Pudge" Price="28.50" Seller="dota_vault">
+  <Item Id="DM-104" Title="Feast of Abscession" Game="Dota 2" Category="Arcana" Rarity="Arcana" Hero="Pudge" Price="22.50" Seller="DendiFan99">
     <Tag Name="Unlocked Style 2" />
   </Item>
 
-  <Item Id="DM-105" Title="Dragonclaw Hook" Game="Dota 2" Category="Weapon" Rarity="Immortal" Hero="Pudge" Quality="Inscribed" Price="165.00" Seller="dota_vault">
+  <Item Id="DM-105" Title="Dragonclaw Hook" Game="Dota 2" Category="Weapon" Rarity="Immortal" Hero="Pudge" Quality="Inscribed" Price="155.00" Seller="GhostHooker">
     <Tag Name="Hook Kills Gem" />
   </Item>
 
-  <Item Id="DM-106" Title="Alien Red AK47" Game="Rust" Category="Rifle" Rarity="Classified" Price="42.00" Seller="rust_market">
+  <Item Id="DM-106" Title="Alien Red AK47" Game="Rust" Category="Rifle" Rarity="Classified" Price="38.00" Seller="RustSurvivor">
     <Tag Name="Glowing Sight" />
   </Item>
 
-  <Item Id="DM-107" Title="M4A4 | Howl" Game="CS2" Category="Rifle" Rarity="Contraband" Exterior="Factory New" Float="0.031" StatTrak="true" Price="5400.00" Seller="skin_baron" />
+  <Item Id="DM-107" Title="M4A4 | Howl" Game="CS2" Category="Rifle" Rarity="Contraband" Exterior="Factory New" Float="0.031" StatTrak="true" Price="5200.00" Seller="KyivTrader_UA" />
 </DMarketCatalog>
